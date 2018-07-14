@@ -9,10 +9,18 @@ const Authenticate = require('./Authenticate');
 
 //Returns an object of type Express
 const app = express();
+
+//built in middleware function in express
 app.use(express.json());//express.json() reads the body of the request and if 
                         //there parses the body if it exists into a JSON object and sets
                         //req.body property.
 
+//Another builtin middleware funciton.                        
+app.use(express.urlencoded({extended: true})); //Parses input request with body encoded like  Key=value&key=value (espescially in form inputs) and 
+                               //structures them into a JSON object.
+
+//Another builtin middleware function to serve static file.s
+app.use(express.static('public'));  //Put static files like css, images in this public folder.
 
 // a) Logging middleware function is called
 app.use(log);

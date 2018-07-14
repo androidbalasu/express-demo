@@ -1,0 +1,1 @@
+Just some text to demonstrate the built in middle ware function 'static' in express.
