@@ -7,7 +7,9 @@ const Joi = require('joi');
 
 //Returns an object of type Express
 const app = express();
-app.use(express.json());
+app.use(express.json());//express.json() reads the body of the request and if 
+                        //there parses the body if it exists into a JSON object and sets
+                        //req.body property.
 
 const courses = [
     {id: 1, name: 'course1'},
@@ -17,7 +19,7 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.send('Welcome to our University');
 });
 
 //Endpoint to return all courses
@@ -26,7 +28,7 @@ app.get('/api/courses', (req, res)=>{
     res.send(courses);
 });
 
-//Endpoint to return the request course
+//Endpoint to return the requested course
 // /api/courses/1
 app.get('/api/courses/:id', (req, res) => {
     //res.send(req.params.id);
@@ -38,15 +40,7 @@ app.get('/api/courses/:id', (req, res) => {
         
 });
 
-// app.get('/api/posts/:month/:year', (req, res) => {
-//     res.send(req.params);
-// });
-
-app.get('/api/posts/:month/:year', (req, res) => {
-    res.send(req.query);
-});
-
-
+//Endpoint to return all courses
 app.post('/api/courses', (req, res) => {
     
     //Object destructuring.
@@ -54,8 +48,7 @@ app.post('/api/courses', (req, res) => {
     
     if(error){
         //400 bad request
-        res.status(400).send(error.details[0].message);
-        return;
+        return res.status(400).send(error.details[0].message);
     }
 
     const course = {
@@ -66,17 +59,19 @@ app.post('/api/courses', (req, res) => {
     res.send(course);
 });
 
+//Set the port in the environment
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Listening on port ${port}....`);
 });
 
+//Endpoint to update a course
 app.put('/api/courses/:id', (req, res)=>{
     //Look up the course with the given id.
     //If course doesn't exist, return 404,
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course) // 404 object not found.
-        res.status(404).send(`Course with given id $req.param.id not found`);
+        return res.status(404).send(`Course with given id $req.param.id not found`);
 
     //Validate input
     //If invalid, return 400 - bad request
@@ -94,6 +89,7 @@ app.put('/api/courses/:id', (req, res)=>{
     res.send(course);
 });
 
+//Validate course using Joi middleware function
 function ValidateCourse(course){
     const schema = {
         name: Joi.string().min(3).required()
@@ -101,3 +97,19 @@ function ValidateCourse(course){
 
     return Joi.validate(course, schema);
 }
+
+//Endpoint to delete a course given its id
+app.delete('/api/courses/:id', (req, res)=>{
+    //Lookup the course.
+    //Not existing, return 404
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) // 404 object not found.
+        return res.status(404).send(`Course with given id $req.param.id not found`);
+
+    //Delete the course
+    const index = courses.indexOf(course);
+    courses.splice(index, 1);
+    
+    //Return the deleted course.
+    res.send(course);
+});
