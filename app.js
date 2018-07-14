@@ -4,6 +4,7 @@ const express = require('express');
 
 //Returns an object of type Express
 const app = express();
+app.use(express.json());
 
 const courses = [
     {id: 1, name: 'course1'},
@@ -40,6 +41,16 @@ app.get('/api/courses/:id', (req, res) => {
 
 app.get('/api/posts/:month/:year', (req, res) => {
     res.send(req.query);
+});
+
+
+app.post('/api/courses', (req, res) => {
+    const course = {
+        id: courses.length + 1,
+        name: req.body.name
+    }
+    courses.push(course);
+    res.send(course);
 });
 
 const port = process.env.PORT || 3000;
