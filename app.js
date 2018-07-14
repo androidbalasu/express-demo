@@ -1,6 +1,9 @@
 //Load express module.
 //The below line returns a function
 const express = require('express');
+//Joi class.  Used for input validation.
+//We need to define a schema of the expected object structure.
+const Joi = require('joi');
 
 //Returns an object of type Express
 const app = express();
@@ -45,9 +48,15 @@ app.get('/api/posts/:month/:year', (req, res) => {
 
 
 app.post('/api/courses', (req, res) => {
-    if(!req.body.name || (req.body.name.length < 3)){
+    const schema = {
+        name: Joi.string().min(3).required()
+    }
+
+    const result = Joi.validate(req.body, schema);
+    
+    if(result.error){
         //400 bad request
-        res.status(400).send('Course name is required and should be a minimum of 3 characters.');
+        res.status(400).send(result.error.details[0].message);
         return;
     }
 
