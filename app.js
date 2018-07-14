@@ -4,12 +4,21 @@ const express = require('express');
 //Joi class.  Used for input validation.
 //We need to define a schema of the expected object structure.
 const Joi = require('joi');
+const log = require('./Logger');
+const Authenticate = require('./Authenticate');
 
 //Returns an object of type Express
 const app = express();
 app.use(express.json());//express.json() reads the body of the request and if 
                         //there parses the body if it exists into a JSON object and sets
                         //req.body property.
+
+
+// a) Logging middleware function is called
+app.use(log);
+
+// b) Authenticating middleware function is called
+app.use(Authenticate);
 
 const courses = [
     {id: 1, name: 'course1'},
