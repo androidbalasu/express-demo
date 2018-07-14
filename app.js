@@ -19,13 +19,19 @@ app.get('/', (req, res) => {
 //Endpoint to return all courses
 app.get('/api/courses', (req, res)=>{
     console.log('Sending back courses list');
-    res.send([1, 2, 3]);
+    res.send(courses);
 });
 
 //Endpoint to return the request course
 // /api/courses/1
 app.get('/api/courses/:id', (req, res) => {
-    res.send(req.params.id);
+    //res.send(req.params.id);
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) // 404 object not found.
+        res.status(404).send(`Course with given id $req.param.id not found`);
+    else
+        res.send(course);
+        
 });
 
 // app.get('/api/posts/:month/:year', (req, res) => {
