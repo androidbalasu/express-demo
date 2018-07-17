@@ -27,7 +27,10 @@ app.use(express.static('public'));  //Put static files like css, images in this 
 
 //Third party middleware functions.
 app.use(helmet());  //Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
-app.use(morgan('tiny')); //A middle ware function to log the URL requested in a tiny URL format.
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny')); //A middle ware function to log the URL requested in a tiny URL format.
+    console.log('Morgan enabled...');
+}
 
 // a) Logging middleware function is called
 app.use(log);
