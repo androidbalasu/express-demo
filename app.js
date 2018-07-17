@@ -20,7 +20,7 @@ app.use(express.urlencoded({extended: true})); //Parses input request with body 
                                //structures them into a JSON object.
 
 //Another builtin middleware function to serve static file.s
-app.use(express.static('public'));  //Put static files like css, images in this public folder.
+app.use(express.static('public'));  //Put static files like css, images in this public folder. Static content is served from the root of the site.
 
 // a) Logging middleware function is called
 app.use(log);
