@@ -8,7 +8,12 @@ const log = require('./Logger');
 const Authenticate = require('./Authenticate');
 const helmet = require('helmet');  //Requires helmet package to be installed.
 const morgan = require('morgan');  //Requires helmet package to be installed.
+const config = require('config');
 
+//Configuration
+console.log(`Application Name: ${config.get('name')}`);
+console.log(`Mail Server: ${config.get('mail.host')}`);
+console.log(`Mail Password: ${config.get('mail.password')}`);
 
 //Returns an object of type Express
 const app = express();
