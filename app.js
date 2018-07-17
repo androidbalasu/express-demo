@@ -6,6 +6,9 @@ const express = require('express');
 const Joi = require('joi');
 const log = require('./Logger');
 const Authenticate = require('./Authenticate');
+const helmet = require('helmet');  //Requires helmet package to be installed.
+const morgan = require('morgan');  //Requires helmet package to be installed.
+
 
 //Returns an object of type Express
 const app = express();
@@ -21,6 +24,10 @@ app.use(express.urlencoded({extended: true})); //Parses input request with body 
 
 //Another builtin middleware function to serve static file.s
 app.use(express.static('public'));  //Put static files like css, images in this public folder. Static content is served from the root of the site.
+
+//Third party middleware functions.
+app.use(helmet());  //Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
+app.use(morgan('tiny')); //A middle ware function to log the URL requested in a tiny URL format.
 
 // a) Logging middleware function is called
 app.use(log);
