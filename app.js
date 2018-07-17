@@ -21,6 +21,9 @@ console.log(`Mail Password: ${config.get('mail.password')}`);
 //Returns an object of type Express
 const app = express();
 
+app.set('view engine', 'pug'); //Template engine. Express will internally load this module and doesn't require an explicit require.
+app.set('views', './views');  //default.
+
 //built in middleware function in express
 app.use(express.json());//express.json() reads the body of the request and if 
                         //there parses the body if it exists into a JSON object and sets
@@ -57,7 +60,8 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('Welcome to our University');
+    //res.send('Welcome to our University');
+    res.render('index', {title: 'My express app', message: 'hello'});
 });
 
 //Endpoint to return all courses
