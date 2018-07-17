@@ -95,10 +95,4 @@ router.delete('/:id', (req, res)=>{
     res.send(course);
 });
 
-
-// app.get('/', (req, res) => {
-//     //res.send('Welcome to our University');
-//     res.render('index', {title: 'My express app', message: 'hello'});
-// });
-
 module.exports = router;

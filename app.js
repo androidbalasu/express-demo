@@ -10,6 +10,7 @@ const helmet = require('helmet');  //Requires helmet package to be installed.
 const morgan = require('morgan');  //Requires helmet package to be installed.
 const config = require('config');
 const courses = require('./routes/courses');
+const homepage = require('./routes/home');
 
 const startUpDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
@@ -45,6 +46,7 @@ if (app.get('env') === 'development') {
 }
 
 app.use('/api/courses', courses);
+app.use('/', homepage);
 
 //Db work....
 dbDebugger('Connecting to the database...');
