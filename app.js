@@ -10,6 +10,9 @@ const helmet = require('helmet');  //Requires helmet package to be installed.
 const morgan = require('morgan');  //Requires helmet package to be installed.
 const config = require('config');
 
+const startUpDebugger = require('debug')('app:startup');
+const dbDebugger = require('debug')('app:db');
+
 //Configuration
 console.log(`Application Name: ${config.get('name')}`);
 console.log(`Mail Server: ${config.get('mail.host')}`);
@@ -34,8 +37,11 @@ app.use(express.static('public'));  //Put static files like css, images in this 
 app.use(helmet());  //Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
 if (app.get('env') === 'development') {
     app.use(morgan('tiny')); //A middle ware function to log the URL requested in a tiny URL format.
-    console.log('Morgan enabled...');
+    startUpDebugger('Morgan enabled...');
 }
+
+//Db work....
+dbDebugger('Connecting to the database...');
 
 // a) Logging middleware function is called
 app.use(log);
