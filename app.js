@@ -4,7 +4,7 @@ const express = require('express');
 //Joi class.  Used for input validation.
 //We need to define a schema of the expected object structure.
 const Joi = require('joi');
-const log = require('./Logger');
+const log = require('./middleware/Logger');
 const Authenticate = require('./Authenticate');
 const helmet = require('helmet');  //Requires helmet package to be installed.
 const morgan = require('morgan');  //Requires helmet package to be installed.
